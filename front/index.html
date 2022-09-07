@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <style>
+        body {
+            height: 100vh;
+            width: 100%;
+            background-color: black;
+            justify-content: center;
+            display: flex;
+        }
+
+        .cont1 {
+            display: flex;
+            border: 1px solid red;
+            height: 600px;
+            width: 1000px;
+        }
+
+        .blank {
+            flex: 1;
+            background-color: white;
+        }
+
+        .cont2 {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid green;
+            flex: 2;
+        }
+
+        .child1 {
+            flex: 15;
+            background-color: aqua;
+        }
+
+        .child2 {
+            flex: 1;
+            background-color: white;
+        }
+
+        .child3 {
+            flex: 2;
+            background-color: black;
+        }
+
+        .img {
+            flex: 2;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cont1">
+        <img class="img" src="" alt="">
+        <div class="blank"></div>
+        <div class="cont2">
+            <div class="child1"></div>
+            <div class="child2"></div>
+            <div class="child3"></div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:todo/injection.dart';
 import 'package:todo/routing.dart';
 
 void main() {
+  injection();
   runApp(const MyApp());
 }
 

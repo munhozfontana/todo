@@ -1,7 +1,10 @@
+import '../../../app/apis/task_api.dart';
 import '../../../app/apis/todo_api.dart';
 import '../../../app/apis/user_api.dart';
+import '../../../app/dao/task_dao.dart';
 import '../../../app/dao/todo_dao.dart';
 import '../../../app/dao/user_dao.dart';
+import '../../../app/services/task_service.dart';
 import '../../../app/services/todo_service.dart';
 import '../../../app/services/user_service.dart';
 import '../database/db_configuration.dart';
@@ -19,6 +22,21 @@ class Injects {
     );
     di.register<SecurityService>(
       () => SecurityServiceImp(),
+    );
+
+    // todo
+    di.register<TaskDao>(
+      () => TaskDao(di<DBConfiguration>()),
+    );
+
+    di.register<TaskService>(
+      () => TaskService(di<TaskDao>()),
+    );
+
+    di.register<TaskApi>(
+      () => TaskApi(
+        di<TaskService>(),
+      ),
     );
 
     // todo

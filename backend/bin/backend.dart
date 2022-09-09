@@ -1,5 +1,6 @@
 import 'package:shelf/shelf.dart';
 
+import 'app/apis/task_api.dart';
 import 'app/apis/todo_api.dart';
 import 'app/apis/user_api.dart';
 import 'core/infra/custom_server.dart';
@@ -14,7 +15,8 @@ void main() async {
 
   var cascadeHandler = Cascade()
       .add(di.get<UserApi>().getHandler(isSecurity: false))
-      .add(di.get<TodoApi>().getHandler(isSecurity: false))
+      .add(di.get<TodoApi>().getHandler(isSecurity: true))
+      .add(di.get<TaskApi>().getHandler(isSecurity: true))
       .handler;
 
   var handler = Pipeline()

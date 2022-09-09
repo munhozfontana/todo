@@ -1,5 +1,8 @@
+import '../../../app/apis/todo_api.dart';
 import '../../../app/apis/user_api.dart';
+import '../../../app/dao/todo_dao.dart';
 import '../../../app/dao/user_dao.dart';
+import '../../../app/services/todo_service.dart';
 import '../../../app/services/user_service.dart';
 import '../database/db_configuration.dart';
 import '../database/mysql_db_configuration.dart';
@@ -16,6 +19,22 @@ class Injects {
     );
     di.register<SecurityService>(
       () => SecurityServiceImp(),
+    );
+
+    // todo
+    di.register<TodoDao>(
+      () => TodoDao(di<DBConfiguration>()),
+    );
+
+    di.register<TodoService>(
+      () => TodoService(di<TodoDao>()),
+    );
+
+    di.register<TodoApi>(
+      () => TodoApi(
+        di<TodoService>(),
+        di<SecurityService>(),
+      ),
     );
 
     // user

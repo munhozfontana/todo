@@ -11,6 +11,7 @@ class SignUpDto extends IDto {
     required this.password,
   });
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'email': email,
@@ -25,6 +26,7 @@ class SignUpDto extends IDto {
     );
   }
 
+  @override
   String toJson() => json.encode(toMap());
 
   factory SignUpDto.fromJson(String source) =>

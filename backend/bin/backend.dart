@@ -1,5 +1,6 @@
 import 'package:shelf/shelf.dart';
 
+import 'app/apis/todo_api.dart';
 import 'app/apis/user_api.dart';
 import 'core/infra/custom_server.dart';
 import 'core/infra/dependency_injector/injects.dart';
@@ -11,8 +12,10 @@ void main() async {
 
   final di = Injects.initialize();
 
-  var cascadeHandler =
-      Cascade().add(di.get<UserApi>().getHandler(isSecurity: false)).handler;
+  var cascadeHandler = Cascade()
+      .add(di.get<UserApi>().getHandler(isSecurity: false))
+      .add(di.get<TodoApi>().getHandler(isSecurity: false))
+      .handler;
 
   var handler = Pipeline()
       .addMiddleware(logRequests())

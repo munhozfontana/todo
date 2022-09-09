@@ -9,7 +9,7 @@ class SignInDto extends IDto {
     required this.email,
     required this.password,
   });
-
+  @override
   Map<String, dynamic> toMap() {
     return {
       'email': email,
@@ -23,7 +23,7 @@ class SignInDto extends IDto {
       password: map['password'] ?? '',
     );
   }
-
+  @override
   String toJson() => json.encode(toMap());
 
   factory SignInDto.fromJson(String source) =>

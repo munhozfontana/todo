@@ -13,6 +13,7 @@ class UserDto extends IDto {
     required this.password,
   });
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -29,6 +30,7 @@ class UserDto extends IDto {
     );
   }
 
+  @override
   String toJson() => json.encode(toMap());
 
   factory UserDto.fromJson(String source) =>

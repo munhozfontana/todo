@@ -5,7 +5,7 @@ import 'package:shelf_router/shelf_router.dart';
 
 import '../../core/errors/errors.dart';
 import '../../core/infra/security/security_service.dart';
-import '../models/user_model.dart';
+import '../entities/user_entity.dart';
 import '../services/user_service.dart';
 import 'dto/user/sign_in_dto.dart';
 import 'dto/user/sign_up_dto.dart';
@@ -52,8 +52,8 @@ class UserApi extends Api {
         var userID = await _userService.authenticate(
           UserModel.fromMap(dto.toMap()),
         );
-        if (userID) {
-          var jwt = await _securityService.generateJWT(userID.toString());
+        if (userID != null) {
+          var jwt = await _securityService.generateJWT(userID.id.toString());
           return Response.ok(jsonEncode({'token': jwt}));
         } else {
           return Response(401);

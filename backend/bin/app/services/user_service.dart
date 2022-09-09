@@ -6,24 +6,27 @@ import '../../core/errors/errors.dart';
 import '../apis/dto/i_dto.dart';
 import '../apis/dto/user/user_dto.dart';
 import '../dao/user_dao.dart';
-import '../models/user_model.dart';
+import '../entities/user_entity.dart';
 import 'utils/generic_service.dart';
 
 class UserService implements GenericService<UserModel> {
   final UserDao _dao;
   UserService(this._dao);
 
-  Future<bool> authenticate(UserModel dto) async {
+  Future<UserModel?> authenticate(UserModel dto) async {
     try {
       var user = await _dao.findByEmail(dto.email);
       if (user == null) {
-        return false;
+        throw IBusinessException('User not found');
       }
-      return Password.verify(dto.password, user.password);
+      if (Password.verify(dto.password, user.password)) {
+        return user;
+      } else {
+        throw IBusinessException('User not authorized');
+      }
     } catch (e) {
       log('[ERROR] -> in Authenticate method by email ${dto.email}');
     }
-    return false;
   }
 
   @override

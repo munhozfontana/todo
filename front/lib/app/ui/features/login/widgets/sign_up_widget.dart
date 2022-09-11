@@ -3,23 +3,20 @@ import 'package:todo/app/domain/entities/user_entity.dart';
 import 'package:todo/app/domain/entities/validators/email_validator.dart';
 import 'package:todo/app/domain/entities/validators/password_validator.dart';
 
-class SignInWidget extends StatefulWidget {
+class SignUpWidget extends StatefulWidget {
   final Function(UserEntity) onSubmit;
-  final Function() toSignUpPage;
 
-  const SignInWidget({
+  const SignUpWidget({
     Key? key,
     required this.onSubmit,
-    required this.toSignUpPage,
   }) : super(key: key);
 
   @override
-  State<SignInWidget> createState() => SignInWidgetState();
+  State<SignUpWidget> createState() => _SignUpWidgetState();
 }
 
-class SignInWidgetState extends State<SignInWidget> {
+class _SignUpWidgetState extends State<SignUpWidget> {
   late GlobalKey<FormState> formKey;
-
   FormState get form => formKey.currentState!;
   late UserEntity userEntity;
 
@@ -28,7 +25,6 @@ class SignInWidgetState extends State<SignInWidget> {
 
   @override
   void initState() {
-    userEntity = UserEntity.empty();
     formKey = GlobalKey<FormState>();
     super.initState();
   }
@@ -36,6 +32,8 @@ class SignInWidgetState extends State<SignInWidget> {
   @override
   void dispose() {
     super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
   }
 
   @override
@@ -49,7 +47,7 @@ class SignInWidgetState extends State<SignInWidget> {
           children: [
             Expanded(
               child: Text(
-                'Sign - in',
+                'Sign - Up',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -73,23 +71,32 @@ class SignInWidgetState extends State<SignInWidget> {
                     ),
                     obscureText: true,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      widget.onSubmit(UserEntity(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      ));
+                  TextFormField(
+                    validator: (value) {
+                      if (passwordController.text != value) {
+                        return 'Password should be equals';
+                      }
+                      return null;
                     },
+                    decoration: const InputDecoration(
+                      hintText: 'confirm password',
+                    ),
+                    obscureText: true,
+                  ),
+                  ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.maxFinite, 46),
                     ),
-                    child: const Text('Sign In'),
-                  ),
-                  OutlinedButton(
-                    onPressed: widget.toSignUpPage,
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(double.maxFinite, 46),
-                    ),
+                    onPressed: () {
+                      if (form.validate()) {
+                        widget.onSubmit(UserEntity(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        ));
+                        emailController.clear();
+                        passwordController.clear();
+                      }
+                    },
                     child: const Text('Sign Up'),
                   ),
                 ],

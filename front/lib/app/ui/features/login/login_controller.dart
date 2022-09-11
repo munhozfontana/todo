@@ -5,8 +5,9 @@ import 'package:todo/app/domain/entities/user_entity.dart';
 import 'package:todo/app/domain/usecases/interfaces/user/i_logged_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/user/i_sign_in_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/user/i_sign_up_usecase.dart';
+import 'package:todo/app/ui/controller_helper/error_helper_mixin.dart';
 
-class LoginController {
+class LoginController with ErrorHelperMixin {
   final ISignInUsecase iSignInUsecase;
   final ISignUpUsecase iSignUpUsecase;
   final ILoggedUsecase isAuthenticateUsecase;
@@ -35,21 +36,21 @@ class LoginController {
 
   void signIn(UserEntity userEntity) async {
     (await iSignInUsecase(userEntity)).fold(
-      (l) => log('signIn failure'),
+      onError,
       (r) => isAuthenticate.value = true,
     );
   }
 
   void signUp(UserEntity userEntity) async {
     (await iSignUpUsecase(userEntity)).fold(
-      (l) => log('signUp failure'),
+      onError,
       (r) => log('signUp success'),
     );
   }
 
   _checkAuthentication() async {
     (await isAuthenticateUsecase()).fold(
-      (l) => null,
+      onError,
       (r) => isAuthenticate.value = r,
     );
   }

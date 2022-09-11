@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/app/domain/entities/task_entity.dart';
-import 'package:todo/app/ui/home/todo/todo_controller.dart';
+import 'package:todo/app/ui/features/home/todo/todo_controller.dart';
 import 'package:todo/app/ui/widgets/btn_round_widget.dart';
 import 'package:todo/injection.dart';
 

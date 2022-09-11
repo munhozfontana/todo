@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo/app/ui/login/login_controller.dart';
-import 'package:todo/app/ui/login/widgets/sign_in_widget.dart';
-import 'package:todo/app/ui/login/widgets/sign_up_widget.dart';
+import 'package:todo/app/ui/features/login/login_controller.dart';
+import 'package:todo/app/ui/features/login/widgets/sign_in_widget.dart';
+import 'package:todo/app/ui/features/login/widgets/sign_up_widget.dart';
 import 'package:todo/injection.dart';
 
 final _controller = inject<LoginController>();

@@ -11,10 +11,11 @@ import 'package:todo/app/domain/usecases/interfaces/user/i_sign_up_usecase.dart'
 import 'package:todo/app/domain/usecases/logged_usecase.dart';
 import 'package:todo/app/domain/usecases/sign_in_usecase.dart';
 import 'package:todo/app/domain/usecases/sign_up_usecase.dart';
-import 'package:todo/app/ui/home/home_controller.dart';
-import 'package:todo/app/ui/home/todo/todo_controller.dart';
-import 'package:todo/app/ui/login/login_controller.dart';
+import 'package:todo/app/ui/features/home/home_controller.dart';
+import 'package:todo/app/ui/features/home/todo/todo_controller.dart';
+import 'package:todo/app/ui/features/login/login_controller.dart';
 import 'package:todo/core/adapters/api_adapter.dart';
+import 'package:todo/main_controller.dart';
 
 import 'app/data/external/interfaces/i_token_external.dart';
 import 'app/data/external/interfaces/i_user_external.dart';
@@ -74,6 +75,10 @@ void injection() {
       iSignInUsecase: inject(),
       iSignUpUsecase: inject(),
     ),
+  );
+
+  inject.registerLazySingleton(
+    () => MainController(),
   );
 
   inject.registerFactory(

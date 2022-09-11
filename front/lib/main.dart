@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo/app/ui/login/login_controller.dart';
-import 'package:todo/app/ui/login/login_page.dart';
 import 'package:todo/injection.dart';
+import 'package:todo/main_widget.dart';
 import 'package:todo/routing.dart';
 
 void main() {
@@ -29,19 +28,8 @@ class MyApp extends StatelessWidget {
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
       builder: (context, child) {
-        return Stack(
-          children: [
-            child!,
-            ValueListenableBuilder(
-              valueListenable: inject<LoginController>().isAuthenticate,
-              builder: (_, value, child) {
-                return Visibility(
-                  visible: !value,
-                  child: const LoginPage(),
-                );
-              },
-            ),
-          ],
+        return MainWidget(
+          child: child,
         );
       },
     );

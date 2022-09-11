@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:todo/app/domain/entities/user_entity.dart';
-import 'package:todo/app/domain/entities/vos/email_vo.dart';
-import 'package:todo/app/domain/entities/vos/password_vo.dart';
 
 class UserModel extends UserEntity {
   UserModel({
@@ -11,8 +9,8 @@ class UserModel extends UserEntity {
   });
 
   UserModel copyWith({
-    EmailVo? email,
-    PasswordVo? password,
+    String? email,
+    String? password,
   }) {
     return UserModel(
       email: email ?? this.email,
@@ -22,15 +20,15 @@ class UserModel extends UserEntity {
 
   Map<String, dynamic> toMap() {
     return {
-      'email': email.value,
-      'password': password.value,
+      'email': email,
+      'password': password,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      email: EmailVo(map['email']),
-      password: PasswordVo(map['password']),
+      email: map['email'],
+      password: map['password'],
     );
   }
 

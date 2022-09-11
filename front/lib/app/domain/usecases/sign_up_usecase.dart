@@ -13,11 +13,11 @@ class SignUpUsecase implements ISignUpUsecase {
 
   @override
   Future<Either<IBusinessException, void>> call(UserEntity entity) async {
-    if (entity.email.value.isEmpty) {
+    if (entity.email.isEmpty) {
       return Left(ArgumentsException('email is required'));
     }
 
-    if (entity.password.value.isEmpty) {
+    if (entity.password.isEmpty) {
       return Left(ArgumentsException('password is required'));
     }
 

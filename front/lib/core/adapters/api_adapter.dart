@@ -1,11 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:todo/app/data/external/interfaces/i_token_external.dart';
 
 import './i_api_adapter.dart';
 
 class ApiAdapter implements IApiAdapter {
   Dio dio = Dio();
+  final ITokenExternal iTokenExternal;
+  ApiAdapter({
+    required this.iTokenExternal,
+  });
 
   @override
   Future<HttpResponse> deleteHttp(
@@ -18,6 +23,8 @@ class ApiAdapter implements IApiAdapter {
       options: Options(headers: headers),
       queryParameters: queryParameters,
     );
+
+    dio.interceptors.add(Interceptor());
 
     return _mackObj(libResponse);
   }
@@ -69,6 +76,25 @@ class ApiAdapter implements IApiAdapter {
 
     return _mackObj(libResponse);
   }
+
+  InterceptorsWrapper itau() => InterceptorsWrapper(
+        onRequest: (options, handler) {
+          options.headers = {
+            'x-itau-apikey': 'bearer ${iTokenExternal.get()}',
+          };
+
+          options.queryParameters.addAll({'idioma': 'en-us'});
+          options.queryParameters.addAll({'language': 'pt-br'});
+
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          return handler.next(response);
+        },
+        onError: (DioError e, handler) {
+          return handler.next(e);
+        },
+      );
 }
 
 HttpResponse _mackObj(Response response) {

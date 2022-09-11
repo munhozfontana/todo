@@ -31,7 +31,7 @@ void injection() {
   );
 
   inject.registerFactory<IApiAdapter>(
-    () => ApiAdapter(),
+    () => ApiAdapter(iTokenExternal: inject()),
   );
 
   inject.registerFactory<ITokenExternal>(

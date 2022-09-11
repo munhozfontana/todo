@@ -25,17 +25,17 @@ class UserModel extends UserEntity {
     };
   }
 
+  String toJson() => json.encode(toMap());
+
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source));
+
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       email: map['email'],
       password: map['password'],
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source));
 
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(

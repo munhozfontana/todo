@@ -77,10 +77,12 @@ class SignInWidgetState extends State<SignInWidget> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      widget.onSubmit(UserEntity(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      ));
+                      if (form.validate()) {
+                        widget.onSubmit(UserEntity(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        ));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.maxFinite, 46),

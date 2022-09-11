@@ -46,7 +46,7 @@ class UserRepository implements IUserRepository {
       if (token == null) {
         return (const Right(false));
       }
-      print(1);
+
       return (const Right(true));
     } on ExternalException catch (e) {
       return Left(ExternalException(e.message));

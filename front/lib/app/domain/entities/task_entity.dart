@@ -1,7 +1,7 @@
 class TaskEntity {
-  final int? id;
-  final String name;
-  final List<TaskEntity>? taskFather;
+  int? id;
+  String name;
+  List<TaskEntity>? taskFather;
 
   TaskEntity({
     this.id,

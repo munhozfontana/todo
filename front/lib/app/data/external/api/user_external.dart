@@ -2,6 +2,7 @@ import 'package:todo/app/data/external/interfaces/i_user_external.dart';
 import 'package:todo/app/data/models/user_model.dart';
 import 'package:todo/core/adapters/api_adapter.dart';
 import 'package:todo/core/adapters/i_api_adapter.dart';
+import 'package:todo/core/environment.dart';
 import 'package:todo/core/errors/i_business_exception.dart';
 
 class UserExternal implements IUserExternal {
@@ -14,7 +15,7 @@ class UserExternal implements IUserExternal {
   @override
   Future<String> signIn(UserModel model) async {
     final res = await iApiAdapter.postHttp(
-      'http://localhost:5555/user/sign-in',
+      '${Environment.host.value}/user/sign-in',
       body: model.toJson(),
     );
 
@@ -28,7 +29,7 @@ class UserExternal implements IUserExternal {
   @override
   Future<void> signUp(UserModel model) async {
     await iApiAdapter.postHttp(
-      'http://localhost:5555/user/sign-up',
+      '${Environment.host.value}/user/sign-up',
       body: model.toJson(),
     );
   }

@@ -10,7 +10,9 @@ class ApiAdapter implements IApiAdapter {
   final ITokenExternal iTokenExternal;
   ApiAdapter({
     required this.iTokenExternal,
-  });
+  }) {
+    dio.interceptors.addAll([token()]);
+  }
 
   @override
   Future<HttpResponse> deleteHttp(
@@ -23,8 +25,6 @@ class ApiAdapter implements IApiAdapter {
       options: Options(headers: headers),
       queryParameters: queryParameters,
     );
-
-    dio.interceptors.add(Interceptor());
 
     return _mackObj(libResponse);
   }
@@ -77,14 +77,11 @@ class ApiAdapter implements IApiAdapter {
     return _mackObj(libResponse);
   }
 
-  InterceptorsWrapper itau() => InterceptorsWrapper(
+  InterceptorsWrapper token() => InterceptorsWrapper(
         onRequest: (options, handler) {
           options.headers = {
-            'x-itau-apikey': 'bearer ${iTokenExternal.get()}',
+            'Authorization': 'Bearer ${iTokenExternal.get()}',
           };
-
-          options.queryParameters.addAll({'idioma': 'en-us'});
-          options.queryParameters.addAll({'language': 'pt-br'});
 
           return handler.next(options);
         },

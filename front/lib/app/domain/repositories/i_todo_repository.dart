@@ -1,8 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:todo/app/domain/entities/todo_entity.dart';
+import 'package:todo/core/errors/i_business_exception.dart';
 
 abstract class ITodoRepository {
-  Future<int> add(TodoEntity entity);
-  Future<bool> update(TodoEntity entity);
-  Future<List<TodoEntity>> findAll();
-  Future<bool> delete(int id);
+  Future<Either<IBusinessException, int>> add(TodoEntity entity);
+  Future<Either<IBusinessException, bool>> update(TodoEntity entity);
+  Future<Either<IBusinessException, List<TodoEntity>>> findAll();
+  Future<Either<IBusinessException, bool>> delete(int id);
 }

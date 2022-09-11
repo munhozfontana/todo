@@ -7,7 +7,7 @@ import 'package:todo/app/domain/usecases/interfaces/user/i_sign_in_usecase.dart'
 import 'package:todo/app/domain/usecases/interfaces/user/i_sign_up_usecase.dart';
 import 'package:todo/app/ui/controller_helper/error_helper_mixin.dart';
 
-class LoginController with ErrorHelperMixin {
+class LoginController with ErrorHelperMixin, ChangeNotifier {
   final ISignInUsecase iSignInUsecase;
   final ISignUpUsecase iSignUpUsecase;
   final ILoggedUsecase isAuthenticateUsecase;
@@ -39,6 +39,7 @@ class LoginController with ErrorHelperMixin {
       onError,
       (r) => isAuthenticate.value = true,
     );
+    notifyListeners();
   }
 
   void signUp(UserEntity userEntity) async {

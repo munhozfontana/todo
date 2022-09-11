@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo/app/domain/entities/todo_entity.dart';
 import 'package:todo/app/domain/usecases/interfaces/todo/i_add_todo_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/todo/i_delete_todo_usecase.dart';
@@ -12,32 +13,31 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
   final IUpdateTodoUsecase iUpdateTodoUsecase;
   final IFindAllTodoUsecase iFindAllTodoUsecase;
 
+  final ValueNotifier<List<TodoEntity>> todoList = ValueNotifier([]);
+  final TextEditingController textFieldController = TextEditingController();
+  get isEdit => todoList.value.any((element) => element.selected);
+
   HomeController({
     required this.iAddTodoUsecase,
     required this.iDeleteTodoUsecase,
     required this.iUpdateTodoUsecase,
     required this.iFindAllTodoUsecase,
   }) {
-    getInitialData();
+    onInit();
   }
 
-  final ValueNotifier<List<TodoEntity>> todoList = ValueNotifier([]);
-  final TextEditingController textFieldController = TextEditingController();
-
-  get isEdit => todoList.value.any((element) => element.selected);
-
-  getInitialData() async {
-    await loadAll();
+  onInit() async {
+    await loadAllTodo();
   }
 
-  Future<void> loadAll() async {
+  Future<void> loadAllTodo() async {
     (await iFindAllTodoUsecase()).fold(
       onError,
       (r) => todoList.value = r,
     );
   }
 
-  Future<bool> addTodoItem() async {
+  Future<int?> addTodoItem(BuildContext context) async {
     if (textFieldController.text.isNotEmpty) {
       var todoEntity = TodoEntity(name: textFieldController.text);
       (await iAddTodoUsecase(todoEntity)).fold(
@@ -46,12 +46,11 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
           todoList.value.add(r);
           todoList.notifyListeners();
           clearForm();
+          GoRouter.of(context).push('/home/todo/${r.id}');
         },
       );
-
-      return true;
     }
-    return false;
+    return null;
   }
 
   removeTodoItem(int index) async {

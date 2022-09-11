@@ -1,11 +1,15 @@
 class TaskEntity {
   int? id;
   String name;
-  List<TaskEntity>? taskFather;
+  int todoId;
+  TaskEntity? taskEntity;
+
+  bool selected = false;
 
   TaskEntity({
     this.id,
     required this.name,
-    this.taskFather,
+    required this.todoId,
+    this.taskEntity,
   });
 }

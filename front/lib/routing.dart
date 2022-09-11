@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo/app/ui/features/home/about_app/about_app_page.dart';
 import 'package:todo/app/ui/features/home/home_page.dart';
 import 'package:todo/app/ui/features/home/home_page_tutorial.dart';
-import 'package:todo/app/ui/features/home/todo/todo_page.dart';
+import 'package:todo/app/ui/features/home/task/task_page.dart';
 
 final GoRouter router = GoRouter(
   routes: <GoRoute>[
@@ -20,9 +20,9 @@ final GoRouter router = GoRouter(
         },
         routes: [
           GoRoute(
-            path: 'todo/:new',
+            path: 'todo/:id',
             builder: (BuildContext context, GoRouterState state) {
-              return TodoPage(todoName: state.params['new']);
+              return TodoPage(id: state.params['id']!);
             },
           )
         ]),

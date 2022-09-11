@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo/app/domain/entities/todo_entity.dart';
 import 'package:todo/injection.dart';
 
 import 'home_controller.dart';
 
 final _controller = inject<HomeController>();
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  void onSubmit() {
+    if (_controller.isEdit) {
+      _controller.editTodoItem();
+    } else {
+      _controller.addTodoItem(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -59,17 +74,7 @@ class HomePage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor:
                           _controller.isEdit ? Colors.orange : null),
-                  onPressed: () {
-                    if (_controller.isEdit) {
-                      _controller.editTodoItem();
-                    } else {
-                      _controller.addTodoItem().then((res) {
-                        if (res) {
-                          GoRouter.of(context).push('/home/todo/');
-                        }
-                      });
-                    }
-                  },
+                  onPressed: onSubmit,
                   child: Text(
                     _controller.isEdit ? 'Edit' : 'Create',
                   ),
@@ -91,15 +96,7 @@ class HomePage extends StatelessWidget {
           return ListView.separated(
             itemBuilder: (context, index) {
               var entity = _controller.todoList.value[index];
-              return ListTile(
-                onTap: () => _controller.select(index),
-                selected: entity.selected,
-                title: Text(entity.name.toString()),
-                trailing: InkWell(
-                  child: const Icon(Icons.delete),
-                  onTap: () => _controller.removeTodoItem(index),
-                ),
-              );
+              return itemTile(index, entity, context);
             },
             separatorBuilder: (context, index) => const SizedBox(
               height: 8,
@@ -109,6 +106,42 @@ class HomePage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  ListTile itemTile(int index, TodoEntity entity, BuildContext context) {
+    return ListTile(
+        onTap: () => _controller.select(index),
+        selected: entity.selected,
+        title: Text(entity.name.toString()),
+        trailing: SizedBox(
+          height: double.maxFinite,
+          width: 80,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: InkWell(
+                  child: const Icon(
+                    Icons.edit,
+                    size: 32,
+                  ),
+                  onTap: () => GoRouter.of(context).push(
+                    '/home/todo/${entity.id}',
+                  ),
+                ),
+              ),
+              Expanded(
+                child: InkWell(
+                  child: const Icon(
+                    Icons.delete,
+                    size: 32,
+                  ),
+                  onTap: () => _controller.removeTodoItem(index),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   AppBar appBar(BuildContext context) {

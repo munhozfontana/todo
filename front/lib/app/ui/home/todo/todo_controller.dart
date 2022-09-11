@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:todo/app/domain/entites/task_entity.dart';
+import 'package:todo/app/domain/entities/task_entity.dart';
 
 class TodoController {
+  final TextEditingController textFieldController = TextEditingController();
+  final List<TaskEntity> suggestions = [];
+
   ValueNotifier<List<TaskEntity>> tasks = ValueNotifier([
     TaskEntity(name: '1', id: 1),
     TaskEntity(
@@ -14,4 +17,12 @@ class TodoController {
     ),
     TaskEntity(name: '3', id: 3),
   ]);
+
+  addTask() {
+    TaskEntity(
+      name: textFieldController.text,
+    );
+  }
+
+  void onChangeSelector(TaskEntity? value) {}
 }

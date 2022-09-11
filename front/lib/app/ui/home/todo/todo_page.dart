@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/app/domain/entities/task_entity.dart';
 import 'package:todo/app/ui/home/todo/todo_controller.dart';
 import 'package:todo/app/ui/widgets/btn_round_widget.dart';
 import 'package:todo/injection.dart';
@@ -61,27 +62,22 @@ class TodoPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const SizedBox(width: 24),
-            const Expanded(
+            Expanded(
               flex: 9,
               child: TextField(
-                  // controller: _controller.textFieldController,
-                  ),
+                controller: _controller.textFieldController,
+              ),
+            ),
+            const SizedBox(width: 12),
+            DropdownButton<TaskEntity>(
+              items: const [],
+              onChanged: _controller.onChangeSelector,
             ),
             const SizedBox(width: 12),
             BtnRoundWidget(
               color: Theme.of(context).primaryColor,
-              // onLongPress: _controller.addTodoItem,
-              onTap: () {
-                // var text = _controller.textFieldController.text;
-                // if (text.isNotEmpty) {}
-              },
+              onTap: _controller.addTask,
               child: const Center(child: Icon(Icons.add)),
-            ),
-            const SizedBox(width: 12),
-            const BtnRoundWidget(
-              color: Colors.blueGrey,
-              // onTap: _controller.clearForm,
-              child: Icon(Icons.clear),
             ),
             const SizedBox(width: 24),
           ],
@@ -99,19 +95,7 @@ class TodoPage extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 238, 238, 238),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListTile(
-                    title: Text(_controller.tasks.value[index].name.toString()),
-                    trailing: const InkWell(
-                      child: Icon(Icons.delete),
-                      // onTap: () => _controller.removeTodoItem(index),
-                    ),
-                  ),
-                ),
+                item(_controller.tasks.value[index]),
                 _controller.tasks.value[index].taskFather != null
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -121,24 +105,13 @@ class TodoPage extends StatelessWidget {
                                     return Container(
                                       margin: const EdgeInsets.only(top: 8),
                                       width: constrains.maxWidth * .90,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 238, 238, 238),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: ListTile(
-                                        title: Text(e.name.toString()),
-                                        trailing: const InkWell(
-                                          child: Icon(Icons.delete),
-                                          // onTap: () => _controller.removeTodoItem(index),
-                                        ),
-                                      ),
+                                      child: item(e),
                                     );
                                   },
                                 ))
                             .toList(),
                       )
-                    : const SizedBox.shrink()
+                    : const SizedBox.shrink(),
               ],
             );
           },
@@ -148,6 +121,22 @@ class TodoPage extends StatelessWidget {
           itemCount: _controller.tasks.value.length,
         );
       },
+    );
+  }
+
+  Container item(TaskEntity task) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 238, 238, 238),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ListTile(
+        title: Text(task.name.toString()),
+        trailing: const InkWell(
+          child: Icon(Icons.delete),
+          // onTap: () => _controller.removeTodoItem(index),
+        ),
+      ),
     );
   }
 }

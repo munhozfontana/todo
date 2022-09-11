@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:todo/app/domain/entites/todo_entity.dart';
+import 'package:todo/app/domain/entities/todo_entity.dart';
 
 class HomeController extends ChangeNotifier {
   final ValueNotifier<List<TodoEntity>> todoList = ValueNotifier([]);

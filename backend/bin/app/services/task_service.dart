@@ -1,3 +1,4 @@
+import '../../core/errors/errors.dart';
 import '../apis/dto/task/task_dto.dart';
 import '../dao/task_dao.dart';
 import '../entities/task_entity.dart';
@@ -20,21 +21,22 @@ class TaskService implements GenericService<TaskEntity> {
   }
 
   @override
-  Future<TaskDto?> findOne(int id) async {
+  Future<TaskDto> findOne(int id) async {
     final result = await _dao.findOne(id);
-    if (result != null) {
-      return TaskDto.fromMap(result.toMap());
+    if (result == null) {
+      throw IBusinessException('task not exists');
     }
+    return TaskDto.fromMap(result.toMap());
   }
 
   @override
   Future<TaskDto> save(TaskEntity value) async {
     if (value.id != null) {
       await _dao.update(value);
-      return (await findOne(value.id!))!;
+      return (await findOne(value.id!));
     } else {
       value.id = await _dao.create(value);
-      return (await findOne(value.id!))!;
+      return (await findOne(value.id!));
     }
   }
 }

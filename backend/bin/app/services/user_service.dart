@@ -27,6 +27,7 @@ class UserService implements GenericService<UserModel> {
     } catch (e) {
       log('[ERROR] -> in Authenticate method by email ${dto.email}');
     }
+    return null;
   }
 
   @override
@@ -39,9 +40,12 @@ class UserService implements GenericService<UserModel> {
   }
 
   @override
-  Future<UserDto?> findOne(int id) async {
+  Future<UserDto> findOne(int id) async {
     final result = await _dao.findOne(id);
-    return UserDto.fromMap(result!.toMap());
+    if (result == null) {
+      throw IBusinessException('task not exists');
+    }
+    return UserDto.fromMap(result.toMap());
   }
 
   @override
@@ -60,7 +64,7 @@ class UserService implements GenericService<UserModel> {
       final hash = Password.hash(value.password, PBKDF2(iterationCount: 20));
       value.password = hash;
       value.id = await _dao.create(value);
-      return (await findOne(value.id!))!;
+      return (await findOne(value.id!));
     }
   }
 

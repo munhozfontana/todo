@@ -12,37 +12,34 @@
         },
         {
             "name": "front",
-            "cwd": "front",
             "request": "launch",
             "type": "dart",
             "program": "front/lib/main.dart",
             "toolArgs": [
                 "--dart-define",
-                "HOST=localhost:5555",
+                "HOST=http://localhost:5555",
             ]
         },
         {
             "name": "front (profile mode)",
-            "cwd": "front",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
             "program": "front/lib/main.dart",
             "toolArgs": [
                 "--dart-define",
-                "HOST=localhost:5555",
+                "HOST=http://localhost:5555",
             ]
         },
         {
             "name": "front (release mode)",
-            "cwd": "front",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
             "program": "front/lib/main.dart",
             "toolArgs": [
                 "--dart-define",
-                "HOST=localhost:5555",
+                "HOST=http://localhost:5555",
             ]
         }
     ]

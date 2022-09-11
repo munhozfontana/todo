@@ -25,7 +25,7 @@ class TodoExternal implements ITodoExternal {
       throw ExternalException('body not found');
     }
 
-    return toMap(res)['token'];
+    return toMap(res)['id'];
   }
 
   @override
@@ -38,7 +38,7 @@ class TodoExternal implements ITodoExternal {
       throw ExternalException('body not found');
     }
 
-    return toMap(res)['token'];
+    return true;
   }
 
   @override
@@ -67,6 +67,19 @@ class TodoExternal implements ITodoExternal {
       throw ExternalException('body not found');
     }
 
-    return toMap(res)['token'];
+    return true;
+  }
+
+  @override
+  Future<TodoModel> findByOne(int id) async {
+    final res = await iApiAdapter.getHttp(
+      '${Environment.host.value}/todo/$id',
+    );
+
+    if (res.body == null) {
+      throw ExternalException('body not found');
+    }
+
+    return TodoModel.fromJson(res.body!);
   }
 }

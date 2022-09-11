@@ -29,6 +29,17 @@ class TodoApi extends Api {
   }) {
     final router = Router();
 
+    router.get('/$path/<id>', (Request req, String id) async {
+      try {
+        TodoDto model = await _service.findOne(int.parse(id));
+        return Response.ok(model.toJson());
+      } on IBusinessException catch (e) {
+        return Response.forbidden(e.toJson());
+      } catch (e) {
+        return Response.internalServerError();
+      }
+    });
+
     router.get('/$path', (Request req) async {
       try {
         List<TodoDto> model = await _service.findAll();
@@ -53,9 +64,8 @@ class TodoApi extends Api {
         var map = TodoDto.fromJson(body).toMap();
         final entity = TodoEntity.fromMap(map);
         entity.userId = userId;
-        await _service.save(entity);
-
-        return Response(201);
+        final savedEntity = await _service.save(entity);
+        return Response(201, body: savedEntity.toJson());
       } on IBusinessException catch (e) {
         return Response.forbidden(e.toJson());
       } catch (e) {

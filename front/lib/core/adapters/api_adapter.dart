@@ -102,4 +102,4 @@ HttpResponse _mackObj(Response response) {
   );
 }
 
-Map toMap(HttpResponse res) => jsonDecode(res.body!);
+Map<String, dynamic> toMap(HttpResponse res) => jsonDecode(res.body!);

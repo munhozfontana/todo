@@ -14,10 +14,11 @@ class TodoRepository implements ITodoRepository {
   });
 
   @override
-  Future<Either<IBusinessException, int>> add(TodoEntity entity) async {
+  Future<Either<IBusinessException, TodoEntity>> add(TodoEntity entity) async {
     try {
       var id = await iTodoExternal.add(TodoModel.fromEntity(entity));
-      return Right(id);
+      var findModel = await iTodoExternal.findByOne(id);
+      return Right(findModel.toEntity());
     } on ExternalException catch (e) {
       return Left(ExternalException(e.message));
     } catch (e) {

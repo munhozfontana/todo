@@ -55,9 +55,10 @@ class HomePage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   var text = _controller.textFieldController.text;
-                  if (_controller.addTodoItem()) {
-                    // GoRouter.of(context).push('/home/todo/$text');
-                  }
+                  _controller.addTodoItem();
+                  // if () {
+                  // GoRouter.of(context).push('/home/todo/$text');
+                  // }
                 },
                 child: const Text('Create todo')),
           ),

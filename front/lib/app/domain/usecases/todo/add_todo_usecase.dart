@@ -13,7 +13,7 @@ class AddTodoUsecase implements IAddTodoUsecase {
   });
 
   @override
-  Future<Either<IBusinessException, void>> call(TodoEntity entity) {
+  Future<Either<IBusinessException, TodoEntity>> call(TodoEntity entity) {
     return iTodoRepository.add(entity);
   }
 }

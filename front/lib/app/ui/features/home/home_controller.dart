@@ -35,11 +35,18 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
     );
   }
 
-  bool addTodoItem() {
+  Future<bool> addTodoItem() async {
     if (textFieldController.text.isNotEmpty) {
-      todoList.value.add(TodoEntity(name: textFieldController.text));
-      todoList.notifyListeners();
-      clearForm();
+      var todoEntity = TodoEntity(name: textFieldController.text);
+      (await iAddTodoUsecase(todoEntity)).fold(
+        onError,
+        (r) {
+          todoList.value.add(todoEntity);
+          todoList.notifyListeners();
+          clearForm();
+        },
+      );
+
       return true;
     }
     return false;

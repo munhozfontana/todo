@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
-import 'package:shelf/src/handler.dart';
-import 'package:shelf/src/middleware.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import '../../core/errors/errors.dart';
@@ -28,6 +26,17 @@ class TaskApi extends Api {
   }) {
     final router = Router();
 
+    router.get('/$path/<id>', (Request req, String id) async {
+      try {
+        TaskDto model = await _service.findOne(int.parse(id));
+        return Response.ok(model.toJson());
+      } on IBusinessException catch (e) {
+        return Response.forbidden(e.toJson());
+      } catch (e) {
+        return Response.internalServerError();
+      }
+    });
+
     router.get('/$path', (Request req) async {
       try {
         List<TaskDto> model = await _service.findAll();
@@ -48,9 +57,8 @@ class TaskApi extends Api {
       try {
         var map = TaskDto.fromJson(body).toMap();
         final entity = TaskEntity.fromMap(map);
-        await _service.save(entity);
-
-        return Response(201);
+        final savedEntity = await _service.save(entity);
+        return Response(201, body: savedEntity.toJson());
       } on IBusinessException catch (e) {
         return Response.forbidden(e.toJson());
       } catch (e) {

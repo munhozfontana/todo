@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   var text = _controller.textFieldController.text;
                   if (_controller.addTodoItem()) {
-                    GoRouter.of(context).push('/home/todo/$text');
+                    // GoRouter.of(context).push('/home/todo/$text');
                   }
                 },
                 child: const Text('Create todo')),

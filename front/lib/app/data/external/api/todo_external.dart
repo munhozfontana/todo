@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:todo/app/data/external/interfaces/i_todo_external.dart';
 import 'package:todo/app/data/models/todo_model.dart';
 import 'package:todo/core/adapters/api_adapter.dart';
@@ -49,7 +51,9 @@ class TodoExternal implements ITodoExternal {
       throw ExternalException('body not found');
     }
 
-    return [];
+    List json = await jsonDecode(res.body!);
+
+    return json.map((e) => TodoModel.fromMap(e)).toList();
   }
 
   @override

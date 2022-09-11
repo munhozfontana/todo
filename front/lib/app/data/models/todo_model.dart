@@ -2,17 +2,26 @@ import 'dart:convert';
 
 import 'package:todo/app/domain/entities/todo_entity.dart';
 
-class TodoModel extends TodoEntity {
+class TodoModel {
+  final int? id;
+  final String name;
+
   TodoModel({
-    required super.name,
+    this.id,
+    required this.name,
   });
 
-  TodoEntity copyWith({
-    int? id,
-    String? name,
-  }) {
+  factory TodoModel.fromEntity(TodoEntity entity) {
+    return TodoModel(
+      id: entity.id,
+      name: entity.name,
+    );
+  }
+
+  TodoEntity toEntity() {
     return TodoEntity(
-      name: name ?? this.name,
+      id: id,
+      name: name,
     );
   }
 
@@ -25,6 +34,7 @@ class TodoModel extends TodoEntity {
 
   factory TodoModel.fromMap(Map<String, dynamic> map) {
     return TodoModel(
+      id: map['id']?.toInt(),
       name: map['name'] ?? '',
     );
   }
@@ -33,21 +43,4 @@ class TodoModel extends TodoEntity {
 
   factory TodoModel.fromJson(String source) =>
       TodoModel.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'TodoEntity(id: $id, name: $name)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is TodoEntity && other.id == id && other.name == name;
-  }
-
-  @override
-  int get hashCode => id.hashCode ^ name.hashCode;
-
-  factory TodoModel.fromEntity(TodoEntity entity) {
-    return TodoModel(name: entity.name);
-  }
 }

@@ -25,6 +25,10 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
   final TextEditingController textFieldController = TextEditingController();
 
   getInitialData() async {
+    await loadAll();
+  }
+
+  Future<void> loadAll() async {
     (await iFindAllTodoUsecase()).fold(
       onError,
       (r) => todoList.value = r,

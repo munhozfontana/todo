@@ -41,7 +41,7 @@ class TodoRepository implements ITodoRepository {
   Future<Either<IBusinessException, List<TodoEntity>>> findAll() async {
     try {
       final res = await iTodoExternal.findAll();
-      return Right(res);
+      return Right(res.map((e) => e.toEntity()).toList());
     } on ExternalException catch (e) {
       return Left(ExternalException(e.message));
     } catch (e) {

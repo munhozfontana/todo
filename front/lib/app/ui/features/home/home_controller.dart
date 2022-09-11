@@ -24,6 +24,8 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
   final ValueNotifier<List<TodoEntity>> todoList = ValueNotifier([]);
   final TextEditingController textFieldController = TextEditingController();
 
+  get isEdit => todoList.value.any((element) => element.selected);
+
   getInitialData() async {
     await loadAll();
   }
@@ -41,7 +43,7 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
       (await iAddTodoUsecase(todoEntity)).fold(
         onError,
         (r) {
-          todoList.value.add(todoEntity);
+          todoList.value.add(r);
           todoList.notifyListeners();
           clearForm();
         },
@@ -66,12 +68,32 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
     todoList.notifyListeners();
   }
 
-  editTodoItem(int index, String name) {
-    todoList.value[index].name = name;
+  editTodoItem() async {
+    for (var element in todoList.value) {
+      if (element.selected) {
+        (await iUpdateTodoUsecase(element)).fold(
+          onError,
+          (r) => element.name = textFieldController.text,
+        );
+      }
+    }
     todoList.notifyListeners();
   }
 
   clearForm() {
     textFieldController.clear();
+  }
+
+  select(int index) {
+    var entityToUpdate = todoList.value[index];
+    for (var element in todoList.value) {
+      if (entityToUpdate.id == element.id) {
+        element.selected = !element.selected;
+      } else {
+        element.selected = false;
+      }
+    }
+
+    todoList.notifyListeners();
   }
 }

@@ -52,15 +52,30 @@ class HomePage extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             flex: 1,
-            child: ElevatedButton(
-                onPressed: () {
-                  var text = _controller.textFieldController.text;
-                  _controller.addTodoItem();
-                  // if () {
-                  // GoRouter.of(context).push('/home/todo/$text');
-                  // }
-                },
-                child: const Text('Create todo')),
+            child: ValueListenableBuilder(
+              valueListenable: _controller.todoList,
+              builder: (_, value, child) {
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _controller.isEdit ? Colors.orange : null),
+                  onPressed: () {
+                    if (_controller.isEdit) {
+                      _controller.editTodoItem();
+                    } else {
+                      _controller.addTodoItem().then((res) {
+                        if (res) {
+                          GoRouter.of(context).push('/home/todo/');
+                        }
+                      });
+                    }
+                  },
+                  child: Text(
+                    _controller.isEdit ? 'Edit' : 'Create',
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -74,13 +89,18 @@ class HomePage extends StatelessWidget {
         animation: _controller.todoList,
         builder: (BuildContext context, Widget? child) {
           return ListView.separated(
-            itemBuilder: (context, index) => ListTile(
-              title: Text(_controller.todoList.value[index].name.toString()),
-              trailing: InkWell(
-                child: const Icon(Icons.delete),
-                onTap: () => _controller.removeTodoItem(index),
-              ),
-            ),
+            itemBuilder: (context, index) {
+              var entity = _controller.todoList.value[index];
+              return ListTile(
+                onTap: () => _controller.select(index),
+                selected: entity.selected,
+                title: Text(entity.name.toString()),
+                trailing: InkWell(
+                  child: const Icon(Icons.delete),
+                  onTap: () => _controller.removeTodoItem(index),
+                ),
+              );
+            },
             separatorBuilder: (context, index) => const SizedBox(
               height: 8,
             ),

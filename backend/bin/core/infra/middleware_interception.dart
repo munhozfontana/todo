@@ -5,24 +5,25 @@ class MInterception {
         responseHandler: (Response res) => res.change(
           headers: {
             'content-type': 'application/json',
-            'xpto': '123',
           },
         ),
       );
 
   static Middleware get cors {
-    final headersPermitidos = {'Access-Control-Allow-Origin': '*'};
+    final headersAllows = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS"
+    };
 
     Response? handlerOption(Request req) {
       if (req.method == 'OPTIONS') {
-        return Response(200, headers: headersPermitidos);
-      } else {
-        return null;
+        return Response(200, headers: headersAllows);
       }
+      return null;
     }
 
-    Response addCorsHeader(Response res) =>
-        res.change(headers: headersPermitidos);
+    Response addCorsHeader(Response res) => res.change(headers: headersAllows);
 
     return createMiddleware(
       requestHandler: handlerOption,

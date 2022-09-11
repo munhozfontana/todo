@@ -52,8 +52,17 @@ class HomeController extends ChangeNotifier with ErrorHelperMixin {
     return false;
   }
 
-  removeTodoItem(int index) {
-    todoList.value.removeAt(index);
+  removeTodoItem(int index) async {
+    var entityToRemove = todoList.value.elementAt(index);
+    (await iDeleteTodoUsecase(entityToRemove)).fold(
+      onError,
+      (r) {
+        todoList.value.removeWhere(
+          (element) => element.id == entityToRemove.id,
+        );
+      },
+    );
+
     todoList.notifyListeners();
   }
 

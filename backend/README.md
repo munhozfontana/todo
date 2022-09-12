@@ -113,7 +113,7 @@ To change the PATH for future terminal sessions, use a command like this:
 
 ### 🚀 RUN PROJECT !!!!
 
-First, you need a postgresSql running on port ```5555```
+First, you need a mySql running on port ```5555```
 
 you have the possible to run by docker, just start the docker composer
 

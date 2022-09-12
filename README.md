@@ -1,9 +1,9 @@
 ## READMES 
 
-[Front-end](./front/README.md)
+[Front-end](./front/README.md) - Flutter/Dart
 
-[Back-end](./backend/README.md)
-
+[Back-end](./backend/README.md) - Dart
+* Database mysql
 
 
 ## ✒️ Authors

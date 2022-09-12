@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage> {
 
   ListTile itemTile(int index, TodoEntity entity, BuildContext context) {
     return ListTile(
+        tileColor: Colors.grey[200],
         onTap: () => _controller.select(index),
         selected: entity.selected,
         title: Text(entity.name.toString()),

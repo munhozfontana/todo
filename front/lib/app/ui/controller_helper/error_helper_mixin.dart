@@ -7,4 +7,8 @@ mixin ErrorHelperMixin {
   onError(IBusinessException error) {
     return mainController.onError(error);
   }
+
+  onMessage(String message) {
+    return mainController.onMessage(message);
+  }
 }

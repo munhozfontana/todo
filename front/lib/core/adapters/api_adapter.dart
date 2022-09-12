@@ -70,6 +70,7 @@ class ApiAdapter implements IApiAdapter {
   }) async {
     final libResponse = await dio.put(
       url!,
+      data: body,
       options: Options(headers: headers),
       queryParameters: queryParameters,
     );

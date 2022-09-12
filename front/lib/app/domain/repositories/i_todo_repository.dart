@@ -6,5 +6,6 @@ abstract class ITodoRepository {
   Future<Either<IBusinessException, TodoEntity>> add(TodoEntity entity);
   Future<Either<IBusinessException, bool>> update(TodoEntity entity);
   Future<Either<IBusinessException, List<TodoEntity>>> findAll();
+  Future<Either<IBusinessException, TodoEntity>> findOne(int id);
   Future<Either<IBusinessException, bool>> delete(int id);
 }

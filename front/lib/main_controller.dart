@@ -9,6 +9,10 @@ class MainController {
     _streamController.sink.add(text.message);
   }
 
+  void onMessage(String text) {
+    _streamController.sink.add(text);
+  }
+
   Stream<String> of() {
     return _streamController.stream;
   }

@@ -54,8 +54,8 @@ class TaskExternal implements ITaskExternal {
 
   @override
   Future<bool> update(TaskModel model) async {
-    final res = await iApiAdapter.postHttp(
-      '${Environment.host.value}/task',
+    final res = await iApiAdapter.putHttp(
+      '${Environment.host.value}/task/${model.id}',
       body: model.toJson(),
     );
 

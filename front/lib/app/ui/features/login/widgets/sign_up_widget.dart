@@ -93,8 +93,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           email: emailController.text,
                           password: passwordController.text,
                         ));
-                        emailController.clear();
-                        passwordController.clear();
                       }
                     },
                     child: const Text('Sign Up'),

@@ -16,11 +16,13 @@ import 'package:todo/app/domain/repositories/i_user_repository.dart';
 import 'package:todo/app/domain/usecases/interfaces/todo/i_add_todo_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/todo/i_delete_todo_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/todo/i_find_all_todo_usecase.dart';
+import 'package:todo/app/domain/usecases/interfaces/todo/i_find_one_todo_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/todo/i_update_todo_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/user/i_logged_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/user/i_sign_in_usecase.dart';
 import 'package:todo/app/domain/usecases/interfaces/user/i_sign_up_usecase.dart';
 import 'package:todo/app/domain/usecases/todo/add_todo_usecase.dart';
+import 'package:todo/app/domain/usecases/todo/find_one_todo_usecase.dart';
 import 'package:todo/app/domain/usecases/user/logged_usecase.dart';
 import 'package:todo/app/domain/usecases/user/sign_in_usecase.dart';
 import 'package:todo/app/domain/usecases/user/sign_up_usecase.dart';
@@ -122,21 +124,30 @@ void _repository() {
 }
 
 void _usecase() {
+  inject.registerFactory<IFindOneTodoUsecase>(
+    () => FindOneTodoUsecase(
+      iTodoRepository: inject(),
+    ),
+  );
+
   inject.registerFactory<IAddTaskUsecase>(
     () => AddTaskUsecase(
       iTaskRepository: inject(),
     ),
   );
+
   inject.registerFactory<IDeleteTaskUsecase>(
     () => DeleteTaskUsecase(
       iTaskRepository: inject(),
     ),
   );
+
   inject.registerFactory<IFindAllTaskUsecase>(
     () => FindAllTaskUsecase(
       iTaskRepository: inject(),
     ),
   );
+
   inject.registerFactory<IUpdateTaskUsecase>(
     () => UpdateTaskUsecase(
       iTaskRepository: inject(),
@@ -196,7 +207,8 @@ void _controllers() {
         iAddTaskUsecase: inject(),
         iDeleteTaskUsecase: inject(),
         iFindAllTaskUsecase: inject(),
-        iUpdateTaskUsecase: inject()),
+        iUpdateTaskUsecase: inject(),
+        iFindOneTodoUsecase: inject()),
   );
 
   inject.registerLazySingleton(

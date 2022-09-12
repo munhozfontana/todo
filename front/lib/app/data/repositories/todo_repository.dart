@@ -61,4 +61,16 @@ class TodoRepository implements ITodoRepository {
       return Left(RepositoryException('Failed update at TodoRepository'));
     }
   }
+
+  @override
+  Future<Either<IBusinessException, TodoEntity>> findOne(int id) async {
+    try {
+      var model = await iTodoExternal.findByOne(id);
+      return Right(model.toEntity());
+    } on ExternalException catch (e) {
+      return Left(ExternalException(e.message));
+    } catch (e) {
+      return Left(RepositoryException('Failed findOne at TodoRepository'));
+    }
+  }
 }

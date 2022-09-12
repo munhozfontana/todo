@@ -13,7 +13,7 @@ class MInterception {
     final headersAllows = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers": "*",
-      "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS"
+      "Access-Control-Allow-Methods": "*"
     };
 
     Response? handlerOption(Request req) {

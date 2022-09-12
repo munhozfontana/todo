@@ -18,6 +18,14 @@ class TodoPage extends StatefulWidget {
 class _TodoPageState extends State<TodoPage> {
   final TaskController _controller = inject<TaskController>();
 
+  void onSubmit() {
+    if (_controller.isEdit) {
+      _controller.updateTask();
+    } else {
+      _controller.addTask();
+    }
+  }
+
   @override
   void initState() {
     _controller.todoId = int.parse(widget.id);
@@ -30,7 +38,12 @@ class _TodoPageState extends State<TodoPage> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.id),
+        title: ValueListenableBuilder(
+          valueListenable: _controller.todoEntity,
+          builder: (_, value, child) {
+            return Text(value?.name ?? '');
+          },
+        ),
       ),
       body: body(size, context),
     );
@@ -43,7 +56,7 @@ class _TodoPageState extends State<TodoPage> {
       ),
       child: Column(
         children: [
-          // form(size, context),
+          form(size, context),
           const SizedBox(height: 18),
           listTodo(size),
         ],
@@ -72,21 +85,89 @@ class _TodoPageState extends State<TodoPage> {
     );
   }
 
-  ListTile itemTile(int index, TaskEntity entity, BuildContext context) {
-    return ListTile(
-      onTap: () => _controller.select(index),
-      selected: entity.selected,
-      title: Text(entity.name.toString()),
-      trailing: SizedBox(
-        height: double.maxFinite,
-        width: 80,
-        child: InkWell(
+  Widget itemTile(int index, TaskEntity entity, BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: entity.taskEntity == null ? 0 : 32),
+      child: ListTile(
+        tileColor: Colors.grey[200],
+        onTap: () => _controller.select(index),
+        selected: entity.selected,
+        title: Text(entity.name),
+        trailing: InkWell(
           child: const Icon(
             Icons.delete,
             size: 32,
           ),
           onTap: () => _controller.deleteTask(index),
         ),
+      ),
+    );
+  }
+
+  Widget form(Size size, BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 36),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: Column(
+        children: [
+          ValueListenableBuilder(
+            valueListenable: _controller.suggestions,
+            builder: (_, value, child) {
+              return DropdownButtonFormField<TaskEntity>(
+                key: _controller.key,
+                icon: _controller.childTaskSelect == null
+                    ? const Icon(Icons.keyboard_arrow_down_outlined)
+                    : InkWell(
+                        onTap: () => _controller.onSelectTask(null),
+                        child: const Icon(Icons.close),
+                      ),
+                decoration: InputDecoration(
+                  labelText: _controller.childTaskSelect == null
+                      ? 'Select the father'
+                      : 'Selected',
+                ),
+                value: _controller.childTaskSelect,
+                items: value,
+                onChanged: _controller.onSelectTask,
+              );
+            },
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 56,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: TextField(
+                    controller: _controller.nameField,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ValueListenableBuilder(
+                    valueListenable: _controller.tasks,
+                    builder: (_, value, child) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                _controller.isEdit ? Colors.orange : null),
+                        onPressed: onSubmit,
+                        child: Text(
+                          _controller.isEdit ? 'Edit' : 'Create',
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

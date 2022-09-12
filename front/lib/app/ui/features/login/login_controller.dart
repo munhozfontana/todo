@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:todo/app/domain/entities/user_entity.dart';
 import 'package:todo/app/domain/usecases/interfaces/user/i_logged_usecase.dart';
@@ -45,7 +43,7 @@ class LoginController with ErrorHelperMixin, ChangeNotifier {
   void signUp(UserEntity userEntity) async {
     (await iSignUpUsecase(userEntity)).fold(
       onError,
-      (r) => log('signUp success'),
+      (r) => pageIndex.value = 0,
     );
   }
 

@@ -58,8 +58,8 @@ class TodoExternal implements ITodoExternal {
 
   @override
   Future<bool> update(TodoModel model) async {
-    final res = await iApiAdapter.postHttp(
-      '${Environment.host.value}/todo',
+    final res = await iApiAdapter.putHttp(
+      '${Environment.host.value}/todo/${model.id}',
       body: model.toJson(),
     );
 

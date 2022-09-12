@@ -58,7 +58,7 @@ class TaskRepository implements ITaskRepository {
     } on ExternalException catch (e) {
       return Left(ExternalException(e.message));
     } catch (e) {
-      return Left(RepositoryException('Failed add at TodoRepository'));
+      return Left(RepositoryException('Failed update at TodoRepository'));
     }
   }
 }

@@ -90,7 +90,7 @@ flutter analyze
 
 Mention all those who helped lift the project from its inception
 
-* Luís Fernando **developer** - *Initial Work* - [GitHub](https://github.com/munhozfontana) - [Linkedin](hhttps://www.linkedin.com/in/luis-fernando-munhoz-fontana-neto-652aa88a/)
+* Luís Fernando **developer** - *Initial Work* - [GitHub](https://github.com/munhozfontana) - [Linkedin](https://www.linkedin.com/in/luis-fernando-munhoz-fontana-neto-652aa88a/)
 
 
 ## 🎁 Expressions of Gratitude
@@ -102,4 +102,4 @@ Mention all those who helped lift the project from its inception
 
 
 ---
-⌨️ with ❤️ by [Armstrong Lohãns](https://gist.github.com/munhozfontana) 😊
+⌨️ with ❤️ by [Luís Fernando](https://gist.github.com/munhozfontana) 😊

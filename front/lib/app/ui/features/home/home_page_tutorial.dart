@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo/app/ui/widgets/btn_round_widget.dart';
 import 'package:todo/app/ui/widgets/tutorial/hole_pointer.dart';
 import 'package:tutorial/tutorial.dart';
 
@@ -15,9 +14,9 @@ class _HomePageTutorialState extends State<HomePageTutorial> {
   final appBarMenu = GlobalKey();
   final inputKey = GlobalKey();
   final addKey = GlobalKey();
-  final cleanKey = GlobalKey();
   final itemKey = GlobalKey();
   final deleteKey = GlobalKey();
+  final editKey = GlobalKey();
 
   List<TutorialItem> items = [];
 
@@ -39,6 +38,179 @@ class _HomePageTutorialState extends State<HomePageTutorial> {
       ],
     );
   }
+
+  Padding body(Size size, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: size.width * .20,
+      ),
+      child: Column(
+        children: [
+          form(size, context),
+          const SizedBox(height: 18),
+          listTodo(size),
+        ],
+      ),
+    );
+  }
+
+  Widget form(Size size, BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 36),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      height: size.height * .05,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 3,
+            child: TextField(
+              key: inputKey,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            flex: 1,
+            child: ElevatedButton(
+              key: addKey,
+              onPressed: () => print(''),
+              child: const Text('Create'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget listTodo(size) {
+    return SizedBox(
+      height: size.height * .5,
+      child: ListView(
+        children: [
+          ListTile(
+            key: itemKey,
+            tileColor: Colors.grey[200],
+            title: const Text('Todo 1'),
+            trailing: SizedBox(
+              height: double.maxFinite,
+              width: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      key: editKey,
+                      child: const Icon(
+                        Icons.edit,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      key: deleteKey,
+                      child: const Icon(
+                        Icons.delete,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          ListTile(
+            tileColor: Colors.grey[200],
+            title: const Text('Todo 1'),
+            trailing: SizedBox(
+              height: double.maxFinite,
+              width: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Expanded(
+                    child: InkWell(
+                      child: Icon(
+                        Icons.edit,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      child: Icon(
+                        Icons.delete,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          ListTile(
+            tileColor: Colors.grey[200],
+            title: const Text('Todo 1'),
+            trailing: SizedBox(
+              height: double.maxFinite,
+              width: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Expanded(
+                    child: InkWell(
+                      child: Icon(
+                        Icons.edit,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      child: Icon(
+                        Icons.delete,
+                        size: 32,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      title: const Text('Home'),
+      actions: [
+        SizedBox(
+          key: appBarMenu,
+          width: 50,
+          child: InkWell(
+            onTap: () => GoRouter.of(context).push('/about_app_page'),
+            child: const Icon(
+              Icons.live_help_outlined,
+              color: Colors.black,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+// ----------------
 
   Widget appTutorial(Size size, BuildContext context) {
     return GestureDetector(
@@ -73,18 +245,18 @@ class _HomePageTutorialState extends State<HomePageTutorial> {
               show: itemSelect == 2,
             ),
             buildItem(
-              text: "Here are have possible to clean the field",
-              key: cleanKey,
-              show: itemSelect == 3,
-            ),
-            buildItem(
               text: "Here are have possible to see the info",
               key: itemKey,
-              show: itemSelect == 4,
+              show: itemSelect == 3,
             ),
             buildItem(
               text: "This button remove item",
               key: deleteKey,
+              show: itemSelect == 4,
+            ),
+            buildItem(
+              text: "Here ou navigate to edit page",
+              key: editKey,
               show: itemSelect == 5,
             ),
           ],
@@ -131,110 +303,6 @@ class _HomePageTutorialState extends State<HomePageTutorial> {
             ],
           ),
         ),
-      ],
-    );
-  }
-
-  Padding body(Size size, BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: size.width * .10,
-      ),
-      child: Stack(
-        children: [
-          listTodo(),
-          form(size, context),
-        ],
-      ),
-    );
-  }
-
-  Align form(Size size, BuildContext context) {
-    return Align(
-      alignment: const Alignment(-1.0, .85),
-      child: Container(
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.25),
-              )
-            ],
-            border: Border.all(
-              color: Colors.white.withOpacity(0.2),
-              width: 1.0,
-            ),
-            gradient: LinearGradient(
-              colors: [
-                Colors.white.withOpacity(0.5),
-                Colors.white.withOpacity(0.2)
-              ],
-              stops: const [0.0, 1.0],
-            ),
-            borderRadius: BorderRadius.circular(50)),
-        height: size.height * .1,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(width: 24),
-            Expanded(
-              key: inputKey,
-              flex: 9,
-              child: const TextField(),
-            ),
-            const SizedBox(width: 12),
-            BtnRoundWidget(
-              key: addKey,
-              color: Theme.of(context).primaryColor,
-              child: const Center(
-                  child: Icon(
-                Icons.add,
-              )),
-            ),
-            const SizedBox(width: 12),
-            BtnRoundWidget(
-              key: cleanKey,
-              color: Colors.blueGrey,
-              child: const Icon(Icons.clear),
-            ),
-            const SizedBox(width: 24),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget listTodo() {
-    return ListView(
-      children: [
-        ListTile(
-          key: itemKey,
-          title: const Text('My First Todo'),
-          trailing: InkWell(
-            key: deleteKey,
-            child: const Icon(Icons.delete),
-          ),
-        ),
-        const SizedBox(
-          height: 8,
-        )
-      ],
-    );
-  }
-
-  AppBar appBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Home'),
-      actions: [
-        SizedBox(
-          width: 50,
-          child: InkWell(
-            key: appBarMenu,
-            child: const Icon(
-              Icons.live_help_outlined,
-              color: Colors.black,
-            ),
-          ),
-        )
       ],
     );
   }
